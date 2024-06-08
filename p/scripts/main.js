@@ -265,7 +265,7 @@ function send_mark_read_queue(queue, asRead, callback) {
 			}
 			delete pending_entries['flux_' + queue[i]];
 		}
-		faviconNbUnread();
+		
 		if (json.tags) {
 			const tagIds = Object.keys(json.tags);
 			for (let i = tagIds.length - 1; i >= 0; i--) {
@@ -1728,7 +1728,7 @@ function refreshUnreads() {
 		const nb_unreads = title ? str2int(title.getAttribute('data-unread')) : 0;
 
 		if (nb_unreads > 0 && new_articles) {
-			faviconNbUnread(nb_unreads);
+			
 			const nb_new = nb_unreads - nb_unreads_before;
 			notifs_html5_show(nb_unreads, nb_new);
 		}
@@ -1852,6 +1852,7 @@ function init_confirm_action() {
 }
 
 function faviconNbUnread(n) {
+	return;
 	if (typeof n === 'undefined') {
 		const t = document.querySelector('.category.all .title');
 		n = t ? str2int(t.getAttribute('data-unread')) : 0;
@@ -1911,7 +1912,6 @@ function init_normal() {
 	init_column_categories();
 	init_stream(stream);
 	init_actualize();
-	faviconNbUnread();
 
 	window.onbeforeunload = function (e) {
 		const sidebar = document.getElementById('sidebar');
@@ -1945,7 +1945,6 @@ function init_main_afterDOM() {
 			init_nav_entries();
 			init_notifs_html5();
 			toggle_bigMarkAsRead_button();
-			setTimeout(faviconNbUnread, 1000);
 			setInterval(refreshUnreads, 120000);
 		}
 	}
