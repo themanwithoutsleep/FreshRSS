@@ -8,12 +8,9 @@ if (!Minz_Request::paramBoolean('ajax')) {
 
 call_user_func($this->callbackBeforeEntries, $this);
 
-$display_today = true;
-$display_yesterday = true;
-$display_others = true;
+$display_header = '';
 $useKeepUnreadImportant = !FreshRSS_Context::isImportant() && !FreshRSS_Context::isFeed();
 
-$today = @strtotime('today');
 ?>
 
 <main id="stream" class="normal<?= FreshRSS_Context::userConf()->display_posts ? '' : ' hide_posts' ?>">
@@ -38,29 +35,21 @@ $today = @strtotime('today');
 		$this->feed = FreshRSS_Category::findFeed($this->categories, $this->entry->feedId()) ??
 			$this->entry->feed() ?? FreshRSS_Feed::default();
 
-		if ($display_today && $this->entry->isDay(FreshRSS_Days::TODAY, $today)) {
-			?><div class="day" id="day_today"><?php
-				echo _t('gen.date.today');
-				?><span class="date"> — <?= timestamptodate(time(), false) ?></span><?php
-				?><span class="name"><?= FreshRSS_Context::$name ?></span><?php
+		// Group feeds by date (Monday — January 1); default is Today, Yesterday, Before yesterday
+		$timestamp = $this->entry->dateAdded(true);  // use date added to database
+		// $timestamp = $this->entry->date(true);  // use published date (some feeds back-date)
+		$month_day = date("F j",$timestamp); 
+		if ($month_day != $display_header) { 
+			$day_long = date("l",$timestamp);
+			$day_short = date("D",$timestamp);
+			?><div class="day"><?= $day_long ?><?php					// adds "Monday" to header
+				?><span class="spacer"> — </span><?php					// adds " — " to header
+				?><span class="date"><?= $month_day ?></span><?php		// adds "January 1" to header
+				?><span class="name"><?= $day_short ?></span><?php		// adds big "Mon" to right of header
 			?></div><?php
-			$display_today = false;
+			$display_header = $month_day;
 		}
-		if ($display_yesterday && $this->entry->isDay(FreshRSS_Days::YESTERDAY, $today)) {
-			?><div class="day" id="day_yesterday"><?php
-				echo _t('gen.date.yesterday');
-				?><span class="date"> — <?= timestamptodate(time() - 86400, false) ?></span><?php
-				?><span class="name"><?= FreshRSS_Context::$name ?></span><?php
-			?></div><?php
-			$display_yesterday = false;
-		}
-		if ($display_others && $this->entry->isDay(FreshRSS_Days::BEFORE_YESTERDAY, $today)) {
-			?><div class="day" id="day_before_yesterday"><?php
-				echo _t('gen.date.before_yesterday');
-				?><span class="name"><?= FreshRSS_Context::$name ?></span><?php
-			?></div><?php
-			$display_others = false;
-		}
+
 	?><div class="flux<?= !$this->entry->isRead() ? ' not_read' : ''
 		?><?= $this->entry->isFavorite() ? ' favorite' : ''
 		?><?= $useKeepUnreadImportant && ($this->feed->priority() >= FreshRSS_Feed::PRIORITY_IMPORTANT) ? ' keep_unread ' : ''
