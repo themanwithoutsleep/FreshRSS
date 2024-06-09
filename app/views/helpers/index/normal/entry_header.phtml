@@ -10,7 +10,17 @@
 	$topline_date = FreshRSS_Context::userConf()->topline_date;
 	$topline_link = FreshRSS_Context::userConf()->topline_link;
 	$lazyload = FreshRSS_Context::userConf()->lazyload;
-?><ul class="horizontal-list flux_header website<?= $topline_website ?>"><?php
+
+	// setup for favicon sprites
+	$favicons_DIR = DATA_PATH . '/favicons/';
+	if (file_exists($favicons_DIR . "favicons.json")) {
+		$str = file_get_contents($favicons_DIR . "favicons.json");
+		$oldFavicons = json_decode($str, true);
+	} else {
+		$oldFavicons = [];
+	}
+
+	?><ul class="horizontal-list flux_header website<?= $topline_website ?>"><?php
 	if (FreshRSS_Auth::hasAccess()) {
 		if ($topline_read) {
 			?><li class="item manage"><?php
@@ -37,7 +47,17 @@
 	if ($topline_website !== 'none'):
 	?><li class="item website <?= $topline_website ?>">
 		<a href="<?= _url('index', 'index', 'get', 'f_' . $this->feed->id()) ?>" class="item-element" title="<?= _t('gen.action.filter') ?>: <?= $this->feed->name() ?>">
-			<?php if (FreshRSS_Context::userConf()->show_favicons && 'name' !== $topline_website): ?><img class="favicon" src="<?= $this->feed->favicon() ?>" alt="✇" loading="lazy" /><?php endif; ?><?php if ('icon' !== $topline_website): ?><span class="websiteName"><?= $this->feed->name() ?></span><?php endif; ?>
+			<?php
+			// Add hash ID always, but only set blank src if feed in sprite
+			if ('name' !== $topline_website) {
+				$this_hash = $this->feed->hash();
+				if (isset($oldFavicons[$this_hash]) && $oldFavicons[$this_hash]['feed_favicon'] >= 0 ) {
+					?><img class="favicon" id="<?= $this_hash ?>" src="../themes/icons/transparent.png" loading="lazy" /><?php
+				} else {
+					?><img class="favicon" id="<?= $this_hash ?>" src="<?= $this->feed->favicon() ?>" alt="✇" loading="lazy" /><?php
+				}
+			}
+			if ('icon' !== $topline_website): ?><span class="websiteName"><?= $this->feed->name() ?></span><?php endif; ?>
 		</a>
 		</li><?php
 	endif; ?>

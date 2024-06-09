@@ -140,6 +140,7 @@ class FreshRSS extends Minz_FrontController {
 				FreshRSS_View::appendThemeColors($theme['theme-color']);
 			}
 		}
+		FreshRSS_View::prependStyle(Minz_Url::display('/themes/favicons.css'));
 		//Use prepend to insert before extensions. Added in reverse order.
 		if (!in_array(Minz_Request::controllerName(), ['index', ''], true)) {
 			FreshRSS_View::prependScript(Minz_Url::display('/scripts/extra.js?' . @filemtime(PUBLIC_PATH . '/scripts/extra.js')));

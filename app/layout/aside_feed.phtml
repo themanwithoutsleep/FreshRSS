@@ -1,5 +1,16 @@
 <?php
 	declare(strict_types=1);
+
+	// setup for favicon sprites
+	$newFavicons = []; 
+	$favicons_DIR = DATA_PATH . '/favicons/';
+	if (file_exists($favicons_DIR . "favicons.json")) {
+		$str = file_get_contents($favicons_DIR . "favicons.json");
+		$oldFavicons = json_decode($str, true);
+	} else {
+		$oldFavicons = [];
+	}
+
 	/** @var FreshRSS_View $this */
 	$actual_view = Minz_Request::actionName();
 	$class = '';
@@ -121,6 +132,14 @@
 			$empty_title = _t('sub.feed.empty');
 		}
 		$mute_class = $feed->mute() ? ' mute' : '';
+
+		// Copy old feed info to new json (pruning unused feeds)
+		$this_hash = $feed->hash();
+		$newFavicons[$this_hash] = ['feed_favicon' => -1, 'feed_name' => $feed->name()];
+		if (isset($oldFavicons[$this_hash]['feed_favicon'])) {
+			$newFavicons[$this_hash]['feed_favicon'] = $oldFavicons[$this_hash]['feed_favicon'];
+		}
+
 ?>
 <li id="f_<?= $feed->id() ?>" class="item feed<?= $f_active_class, $mute_class, $error_class, $empty_class ?>" title="<?= $error_title, $empty_title ?>"
 		data-unread="<?= $feed->nbNotRead() ?>" data-priority="<?= $feed->priority() ?>"><?php
@@ -128,8 +147,14 @@
 	?><div class="dropdown no-mobile">
 		<div class="dropdown-target"></div><a class="dropdown-toggle" data-fweb="<?= $feed->website() ?>"><?= _i('configure') ?></a><?php /* feed_config_template */ ?>
 	</div><?php
-			if (FreshRSS_Context::userConf()->show_favicons) { ?><img class="favicon" src="<?= $feed->favicon() ?>" alt="✇" loading="lazy" /><?php }
+			// Add hash ID always, but only set blank src if feed in sprite
+			if ($oldFavicons[$this_hash]['feed_favicon'] >= 0 ) {
+				?><img class="favicon" id="<?= $this_hash ?>" src="../themes/icons/transparent.png" loading="lazy" /><?php
+			} else {
+				?><img class="favicon" id="<?= $this_hash ?>" src="<?= $feed->favicon() ?>" alt="✇" loading="lazy" /><?php
+			}
 		endif;
+
 	?><a class="item-title" data-unread="<?= format_number($feed->nbNotRead()) ?>" href="<?=
 		_url('index', $actual_view, 'get', 'f_' . $feed->id()) . $state_filter_manual ?>"><?= $feed->name() ?></a></li>
 <?php
@@ -140,6 +165,7 @@
 		<?php
 				}
 			endforeach;
+			file_put_contents($favicons_DIR . "favicons.json", json_encode($newFavicons, JSON_PRETTY_PRINT));
 		?>
 		<li class="tree-bottom"></li>
 	</ul>

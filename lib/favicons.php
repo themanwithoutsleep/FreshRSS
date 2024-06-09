@@ -111,8 +111,25 @@ function searchFavicon(string &$url): string {
 }
 
 function download_favicon(string $url, string $dest): bool {
-	$url = trim($url);
-	$favicon = searchFavicon($url);
+	$url = trim($url);	
+	$str = file_get_contents(FAVICONS_DIR . "favicons.json");
+	$favicons = json_decode($str, true);
+	
+	$cutom_ico = "";
+	foreach ($favicons as $key => $val) {
+		if (isset($val['feed_url']) && $val['feed_url'] == $url) {
+		   $feed_name = $favicons[$key]['feed_name'];
+		   $cutom_ico = FAVICONS_DIR . "custom/" . $feed_name . '.ico';
+		   break;
+		}
+	}
+	
+	if (file_exists($cutom_ico)) {
+		$favicon = file_get_contents($cutom_ico);
+	} else {
+		$favicon = searchFavicon($url);
+	}
+	
 	if ($favicon == '') {
 		$rootUrl = preg_replace('%^(https?://[^/]+).*$%i', '$1/', $url);
 		if ($rootUrl != $url) {
