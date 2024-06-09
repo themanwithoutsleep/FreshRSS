@@ -246,7 +246,7 @@ function send_mark_read_queue(queue, asRead, callback) {
 				div.querySelectorAll('a.read > .icon').forEach(function (img) { img.outerHTML = myIcons.unread; });
 				inc++;
 			}
-			const feed_link = div.querySelector('.website > a, a.website');
+			const feed_link = div.querySelector('.website > *, .website > a, a.website');
 			if (feed_link) {
 				const feed_url = feed_link.href;
 				const feed_id = feed_url.substr(feed_url.lastIndexOf('f_'));
@@ -1153,7 +1153,7 @@ function init_stream(stream) {
 
 		el = ev.target.closest('.flux_header, .flux_content');
 		if (el) {	// flux_toggle
-			if (ev.target.closest('.reader, .content, .item.website, .item.link, .dropdown')) {
+			if (ev.target.closest('.reader, .content, .item.link, .dropdown')) {
 				return true;
 			}
 			if ((!context.sides_close_article && ev.target.matches('.flux_content')) || ev.target.closest('footer')) {
