@@ -139,6 +139,9 @@
 		if (isset($oldFavicons[$this_hash]['feed_favicon'])) {
 			$newFavicons[$this_hash]['feed_favicon'] = $oldFavicons[$this_hash]['feed_favicon'];
 		}
+		if (isset($oldFavicons[$this_hash]['feed_url'])) {
+			$newFavicons[$this_hash]['feed_url'] = $oldFavicons[$this_hash]['feed_url'];
+		}
 
 ?>
 <li id="f_<?= $feed->id() ?>" class="item feed<?= $f_active_class, $mute_class, $error_class, $empty_class ?>" title="<?= $error_title, $empty_title ?>"
