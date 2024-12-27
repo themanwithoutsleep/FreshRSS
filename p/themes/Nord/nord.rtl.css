@@ -509,22 +509,19 @@ img.favicon {
 	border-radius: 10px;
 }
 
-.box .box-title {
-	padding: 5px 10px;
-}
-
-.box .box-title,
-.box .box-content {
-	padding: 1rem 1rem .25rem 1rem;
-}
-
 .box .box-content {
 	padding-bottom: 1.5rem;
 	list-style: none;
 }
 
+.box .box-title {
+	padding-top: 0.75rem;
+	padding-bottom: 0.5rem;
+	border-bottom: 1px solid var(--nordX-background);
+}
+
 .box .box-title .configure {
-	padding-left: .5rem;
+	padding-left: .25rem;
 }
 
 .box .box-title h2 {
@@ -802,7 +799,7 @@ li.item.active {
 	padding: 0.25rem;
 }
 
-.flux .tags .icon {
+.flux .content .tags .icon {
 	padding: 0.25rem;
 }
 
@@ -1194,7 +1191,7 @@ optgroup::before {
 	border: none;
 }
 
-#stream.reader .flux .content {
+#stream.reader .flux .flux_content {
 	background-color: var(--accent-bg);
 	border: none;
 	border-radius: 12px;
@@ -1334,10 +1331,6 @@ optgroup::before {
 
 	.dropdown-menu {
 		margin: 0;
-	}
-
-	.dropdown-target:target ~ .dropdown-toggle:not(.btn) ~ .dropdown-menu {
-		margin-top: 7px;
 	}
 
 	.dropdown .dropdown-menu {

@@ -115,7 +115,7 @@ class FreshRSS_index_Controller extends FreshRSS_ActionController {
 
 		try {
 			FreshRSS_Context::updateUsingRequest(true);
-		} catch (FreshRSS_Context_Exception $e) {
+		} catch (FreshRSS_Context_Exception) {
 			Minz_Error::error(404);
 		}
 
@@ -192,7 +192,7 @@ class FreshRSS_index_Controller extends FreshRSS_ActionController {
 
 		try {
 			FreshRSS_Context::updateUsingRequest(false);
-		} catch (FreshRSS_Context_Exception $e) {
+		} catch (FreshRSS_Context_Exception) {
 			Minz_Error::error(404);
 		}
 

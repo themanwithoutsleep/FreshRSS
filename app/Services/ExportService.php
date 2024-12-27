@@ -6,15 +6,13 @@ declare(strict_types=1);
  */
 class FreshRSS_Export_Service {
 
-	private string $username;
+	private readonly FreshRSS_CategoryDAO $category_dao;
 
-	private FreshRSS_CategoryDAO $category_dao;
+	private readonly FreshRSS_FeedDAO $feed_dao;
 
-	private FreshRSS_FeedDAO $feed_dao;
+	private readonly FreshRSS_EntryDAO $entry_dao;
 
-	private FreshRSS_EntryDAO $entry_dao;
-
-	private FreshRSS_TagDAO $tag_dao;
+	private readonly FreshRSS_TagDAO $tag_dao;
 
 	final public const FRSS_NAMESPACE = 'https://freshrss.org/opml';
 	final public const TYPE_HTML_XPATH = 'HTML+XPath';
@@ -23,16 +21,15 @@ class FreshRSS_Export_Service {
 	final public const TYPE_JSON_DOTPATH = 'JSON+DotPath';	// Legacy 1.24.0-dev
 	final public const TYPE_JSON_DOTNOTATION = 'JSON+DotNotation';
 	final public const TYPE_JSONFEED = 'JSONFeed';
+	final public const TYPE_HTML_XPATH_JSON_DOTNOTATION = 'HTML+XPath+JSON+DotNotation';
 
 	/**
 	 * Initialize the service for the given user.
 	 */
-	public function __construct(string $username) {
-		$this->username = $username;
-
-		$this->category_dao = FreshRSS_Factory::createCategoryDao($username);
-		$this->feed_dao = FreshRSS_Factory::createFeedDao($username);
-		$this->entry_dao = FreshRSS_Factory::createEntryDao($username);
+	public function __construct(private readonly string $username) {
+		$this->category_dao = FreshRSS_Factory::createCategoryDao($this->username);
+		$this->feed_dao = FreshRSS_Factory::createFeedDao($this->username);
+		$this->entry_dao = FreshRSS_Factory::createEntryDao($this->username);
 		$this->tag_dao = FreshRSS_Factory::createTagDao();
 	}
 
@@ -130,7 +127,7 @@ class FreshRSS_Export_Service {
 		$exported_files = [];
 		foreach ($feed_ids as $feed_id) {
 			$result = $this->generateFeedEntries($feed_id, $max_number_entries);
-			if (!$result) {
+			if ($result === null) {
 				continue;
 			}
 

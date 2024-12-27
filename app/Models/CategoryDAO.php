@@ -12,7 +12,7 @@ class FreshRSS_CategoryDAO extends Minz_ModelPdo {
 			$stm->bindValue(':id', self::DEFAULTCATEGORYID, PDO::PARAM_INT);
 			$stm->bindValue(':name', 'Uncategorized');
 		}
-		return $stm && $stm->execute();
+		return $stm !== false && $stm->execute();
 	}
 
 	protected function addColumn(string $name): bool {
@@ -126,7 +126,7 @@ SQL;
 			$catId = $this->pdo->lastInsertId('`_category_id_seq`');
 			return $catId === false ? false : (int)$catId;
 		} else {
-			$info = $stm == null ? $this->pdo->errorInfo() : $stm->errorInfo();
+			$info = $stm === false ? $this->pdo->errorInfo() : $stm->errorInfo();
 			if ($this->autoUpdateDb($info)) {
 				return $this->addCategory($valuesTmp);
 			}
@@ -137,7 +137,7 @@ SQL;
 
 	public function addCategoryObject(FreshRSS_Category $category): int|false {
 		$cat = $this->searchByName($category->name());
-		if (!$cat) {
+		if ($cat === null) {
 			$values = [
 				'kind' => $category->kind(),
 				'name' => $category->name(),
@@ -175,7 +175,7 @@ SQL;
 		if ($stm !== false && $stm->execute($values)) {
 			return $stm->rowCount();
 		} else {
-			$info = $stm == null ? $this->pdo->errorInfo() : $stm->errorInfo();
+			$info = $stm === false ? $this->pdo->errorInfo() : $stm->errorInfo();
 			if ($this->autoUpdateDb($info)) {
 				return $this->updateCategory($id, $valuesTmp);
 			}
@@ -196,7 +196,7 @@ SQL;
 		if ($stm !== false && $stm->execute($values)) {
 			return $stm->rowCount();
 		} else {
-			$info = $stm == null ? $this->pdo->errorInfo() : $stm->errorInfo();
+			$info = $stm === false ? $this->pdo->errorInfo() : $stm->errorInfo();
 			Minz_Log::error('SQL error ' . __METHOD__ . json_encode($info));
 			return false;
 		}
@@ -211,7 +211,7 @@ SQL;
 		if ($stm !== false && $stm->bindParam(':id', $id, PDO::PARAM_INT) && $stm->execute()) {
 			return $stm->rowCount();
 		} else {
-			$info = $stm == null ? $this->pdo->errorInfo() : $stm->errorInfo();
+			$info = $stm === false ? $this->pdo->errorInfo() : $stm->errorInfo();
 			Minz_Log::error('SQL error ' . __METHOD__ . json_encode($info));
 			return false;
 		}
@@ -290,7 +290,7 @@ SQL;
 				 * 	'id'?:int,'name'?:string,'url'?:string,'kind'?:int,'category'?:int,'website'?:string,'priority'?:int,'error'?:int|bool,'attributes'?:string,'cache_nbEntries'?:int,'cache_nbUnreads'?:int,'ttl'?:int}> $res */
 				return self::daoToCategoriesPrepopulated($res);
 			} else {
-				$info = $stm == null ? $this->pdo->errorInfo() : $stm->errorInfo();
+				$info = $stm === false ? $this->pdo->errorInfo() : $stm->errorInfo();
 				if ($this->autoUpdateDb($info)) {
 					return $this->listCategories($prePopulateFeeds, $details);
 				}
@@ -315,7 +315,7 @@ SQL;
 			$stm->execute()) {
 			return self::daoToCategories($stm->fetchAll(PDO::FETCH_ASSOC));
 		} else {
-			$info = $stm ? $stm->errorInfo() : $this->pdo->errorInfo();
+			$info = $stm !== false ? $stm->errorInfo() : $this->pdo->errorInfo();
 			if ($this->autoUpdateDb($info)) {
 				return $this->listCategoriesOrderUpdate($defaultCacheDuration, $limit);
 			}
@@ -362,7 +362,7 @@ SQL;
 				$catId = $this->pdo->lastInsertId('`_category_id_seq`');
 				return $catId === false ? false : (int)$catId;
 			} else {
-				$info = $stm == null ? $this->pdo->errorInfo() : $stm->errorInfo();
+				$info = $stm === false ? $this->pdo->errorInfo() : $stm->errorInfo();
 				Minz_Log::error('SQL error ' . __METHOD__ . json_encode($info));
 				return false;
 			}
@@ -386,6 +386,20 @@ SQL;
 		$sql = 'SELECT COUNT(*) AS count FROM `_entry` e INNER JOIN `_feed` f ON e.id_feed=f.id WHERE category=:id AND e.is_read=0';
 		$res = $this->fetchColumn($sql, 0, [':id' => $id]);
 		return isset($res[0]) ? (int)$res[0] : -1;
+	}
+
+	/** @return array<int,string> */
+	public function listTitles(int $id, int $limit = 0): array {
+		$sql = <<<'SQL'
+			SELECT e.title FROM `_entry` e
+			INNER JOIN `_feed` f ON e.id_feed=f.id
+			WHERE f.category=:id_category
+			ORDER BY e.id DESC
+		SQL;
+		$sql .= ($limit < 1 ? '' : ' LIMIT ' . intval($limit));
+		$res = $this->fetchColumn($sql, 0, [':id_category' => $id]) ?? [];
+		/** @var array<int,string> $res */
+		return $res;
 	}
 
 	/**
