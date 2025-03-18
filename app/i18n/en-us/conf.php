@@ -99,6 +99,12 @@ return array(
 			'previous' => 'Previous',	// IGNORE
 		),
 	),
+	'mark_read_button' => array(
+		'_' => '“Mark all as read” button',	// IGNORE
+		'big' => 'Big',	// IGNORE
+		'none' => 'None',	// IGNORE
+		'small' => 'Small',	// IGNORE
+	),
 	'privacy' => array(
 		'_' => 'Privacy',	// IGNORE
 		'retrieve_extension_list' => 'Retrieve extension list',	// IGNORE
@@ -107,6 +113,8 @@ return array(
 		'_' => 'Profile management',	// IGNORE
 		'api' => array(
 			'_' => 'API management',	// IGNORE
+			'api_not_set' => 'API password not set',	// IGNORE
+			'api_set' => 'API password set',	// IGNORE
 			'check_link' => 'Check API status via: <kbd><a href="../api/" target="_blank">%s</a></kbd>',	// IGNORE
 			'disabled' => 'The API access is disabled.',	// IGNORE
 			'documentation_link' => 'See the <a href="https://freshrss.github.io/FreshRSS/en/users/06_Mobile_access.html#access-via-mobile-app" target="_blank">documentation and list of known apps</a>',	// IGNORE
@@ -138,6 +146,8 @@ return array(
 			'tags' => 'Display by label',	// IGNORE
 			'type' => 'Type',	// IGNORE
 		),
+		'get_A' => 'Show all feeds, also those shown in their category',	// IGNORE
+		'get_Z' => 'Show all feeds, also archived ones',	// IGNORE
 		'get_all' => 'Display all articles',	// IGNORE
 		'get_all_labels' => 'Display articles with any label',	// IGNORE
 		'get_category' => 'Display “%s” category',	// IGNORE

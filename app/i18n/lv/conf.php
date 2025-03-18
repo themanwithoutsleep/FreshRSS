@@ -99,6 +99,12 @@ return array(
 			'previous' => 'Iepriekšējais',
 		),
 	),
+	'mark_read_button' => array(
+		'_' => '"atzīmēt visus kā izlasītus" button',	// DIRTY
+		'big' => 'Big',	// TODO
+		'none' => 'None',	// TODO
+		'small' => 'Small',	// TODO
+	),
 	'privacy' => array(
 		'_' => 'Privacy',	// TODO
 		'retrieve_extension_list' => 'Retrieve extension list',	// TODO
@@ -107,6 +113,8 @@ return array(
 		'_' => 'Profila pārvalde',
 		'api' => array(
 			'_' => 'API pārvalde',
+			'api_not_set' => 'API password not set',	// TODO
+			'api_set' => 'API password set',	// TODO
 			'check_link' => 'Check API status via: <kbd><a href="../api/" target="_blank">%s</a></kbd>',	// TODO
 			'disabled' => 'The API access is disabled.',	// TODO
 			'documentation_link' => 'See the <a href="https://freshrss.github.io/FreshRSS/en/users/06_Mobile_access.html#access-via-mobile-app" target="_blank">documentation and list of known apps</a>',	// TODO
@@ -138,6 +146,8 @@ return array(
 			'tags' => 'Rādīt pēc birkas',
 			'type' => 'Veids',
 		),
+		'get_A' => 'Show all feeds, also those shown in their category',	// TODO
+		'get_Z' => 'Show all feeds, also archived ones',	// TODO
 		'get_all' => 'Rādīt visus rakstus',
 		'get_all_labels' => 'Display articles with any label',	// TODO
 		'get_category' => 'Rādīt kategoriju “%s”',

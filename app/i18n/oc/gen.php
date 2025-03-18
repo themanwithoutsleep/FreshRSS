@@ -14,9 +14,9 @@ return array(
 	'action' => array(
 		'actualize' => 'Actualizar flux',
 		'add' => 'Ajustar',
-		'back' => '← Tornar',
 		'back_to_rss_feeds' => '← Tornar a vòstres fluxes RSS',
 		'cancel' => 'Anullar',
+		'close' => 'Close',	// TODO
 		'create' => 'Crear',
 		'delete_all_feeds' => 'Delete all feeds',	// TODO
 		'delete_errored_feeds' => 'Delete feeds with errors',	// TODO
@@ -170,6 +170,7 @@ return array(
 		'oc' => 'Occitan',	// IGNORE
 		'pl' => 'Polski',	// IGNORE
 		'pt-br' => 'Português (Brasil)',	// IGNORE
+		'pt-pt' => 'Português (Portugal)',	// IGNORE
 		'ru' => 'Русский',	// IGNORE
 		'sk' => 'Slovenčina',	// IGNORE
 		'tr' => 'Türkçe',	// IGNORE

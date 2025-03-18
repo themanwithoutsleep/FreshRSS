@@ -24,7 +24,7 @@ $useKeepUnreadImportant = !FreshRSS_Context::isImportant() && !FreshRSS_Context:
 	<div class="dropdown-menu">
 		<ul class="dropdown-menu-scrollable scrollbar-thin">
 			<li class="dropdown-header">
-				<?= _t('index.menu.tags') ?>
+				<?= _t('index.menu.mylabels') ?>
 				<?php if (FreshRSS_Auth::hasAccess()) { ?>
 					<a href="<?= _url('tag', 'index') ?>"><?= _i('configure') ?></a>
 				<?php } ?>
@@ -43,15 +43,15 @@ $useKeepUnreadImportant = !FreshRSS_Context::isImportant() && !FreshRSS_Context:
 	$lastEntry = null;
 	$nbEntries = 0;
 	foreach ($this->entries as $item):
-		$lastEntry = $item;
-		$nbEntries++;
-		ob_flush();
-		/** @var FreshRSS_Entry */
+		/** @var FreshRSS_Entry|null $item */
 		$item = Minz_ExtensionManager::callHook('entry_before_display', $item);
-		if ($item == null) {
+		if ($item === null) {
 			continue;
 		}
+		ob_flush();
 		$this->entry = $item;
+		$lastEntry = $item;
+		$nbEntries++;
 
 		// We most likely already have the feed object in cache, otherwise make a request
 		$this->feed = FreshRSS_Category::findFeed($this->categories, $this->entry->feedId()) ??

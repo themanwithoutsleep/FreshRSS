@@ -99,6 +99,12 @@ return array(
 			'previous' => '上一页',
 		),
 	),
+	'mark_read_button' => array(
+		'_' => '“全部标记为已读” button',	// DIRTY
+		'big' => 'Big',	// TODO
+		'none' => 'None',	// TODO
+		'small' => 'Small',	// TODO
+	),
 	'privacy' => array(
 		'_' => 'Privacy',	// TODO
 		'retrieve_extension_list' => 'Retrieve extension list',	// TODO
@@ -107,6 +113,8 @@ return array(
 		'_' => '账户管理',
 		'api' => array(
 			'_' => 'API 管理',
+			'api_not_set' => 'API password not set',	// TODO
+			'api_set' => 'API password set',	// TODO
 			'check_link' => 'Check API status via: <kbd><a href="../api/" target="_blank">%s</a></kbd>',	// TODO
 			'disabled' => 'The API access is disabled.',	// TODO
 			'documentation_link' => 'See the <a href="https://freshrss.github.io/FreshRSS/en/users/06_Mobile_access.html#access-via-mobile-app" target="_blank">documentation and list of known apps</a>',	// TODO
@@ -138,6 +146,8 @@ return array(
 			'tags' => '按标签显示',
 			'type' => '类型',
 		),
+		'get_A' => 'Show all feeds, also those shown in their category',	// TODO
+		'get_Z' => 'Show all feeds, also archived ones',	// TODO
 		'get_all' => '显示所有文章',
 		'get_all_labels' => '显示所有打了标签的文章',
 		'get_category' => '显示分类“%s”',
