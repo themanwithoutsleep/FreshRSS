@@ -2,17 +2,91 @@
 
 See also [the FreshRSS releases](https://github.com/FreshRSS/FreshRSS/releases).
 
-## 2025-0X-XX FreshRSS 1.26.2-dev
+## 2025-0X-XX FreshRSS 1.26.4-dev
+
+
+## 2025-06-02 FreshRSS 1.26.3
+
+* Features
+	* Keep sort and order criteria during navigation [#7585](https://github.com/FreshRSS/FreshRSS/pull/7585)
+	* Add info about `PDO::ATTR_CLIENT_VERSION` (relevant for MySQL / MariaDB with obsolete driver) [#7591](https://github.com/FreshRSS/FreshRSS/pull/7591)
+* Bug fixing
+	* Fix SQL request for user labels with custom sort (affecting PostgreSQL) [#7588](https://github.com/FreshRSS/FreshRSS/pull/7588)
+	* Fix regression for favicon in GReader and Fever APIs [#7573](https://github.com/FreshRSS/FreshRSS/pull/7573)
+	* Fix newest articles (within last second) not shown [#7577](https://github.com/FreshRSS/FreshRSS/pull/7577)
+	* Fix duplicate HTTP header for POST [#7556](https://github.com/FreshRSS/FreshRSS/pull/7556)
+	* Fix important articles on reader view [#7602](https://github.com/FreshRSS/FreshRSS/pull/7602)
+	* Fix remove last share method [#7613](https://github.com/FreshRSS/FreshRSS/pull/7613)
+	* Fix API handling of default category [#7610](https://github.com/FreshRSS/FreshRSS/pull/7610)
+	* Fix user self-deletion [#7626](https://github.com/FreshRSS/FreshRSS/pull/7626)
+	* Move PHP minimum version check [#7560](https://github.com/FreshRSS/FreshRSS/pull/7560)
+* Security
+	* Fix encoding of themes [#7565](https://github.com/FreshRSS/FreshRSS/pull/7565)
+	* Fix `.htaccess.dist` for access to `/scripts/vendor/` [#7598](https://github.com/FreshRSS/FreshRSS/pull/7598)
+* SimplePie
+	* Strip more HTML deprecated styles attributes: `bgcolor, text, background, link, alink, vlink` [#7606](https://github.com/FreshRSS/FreshRSS/pull/7606)
+* UI
+	* Implement loading spinner for marking as favourite/read [#7564](https://github.com/FreshRSS/FreshRSS/pull/7564)
+	* Provide theme class for CSS [#7559](https://github.com/FreshRSS/FreshRSS/pull/7559)
+* Deployment
+	* Use HTTP `Cache-Control: immutable` for some files [#7552](https://github.com/FreshRSS/FreshRSS/pull/7552)
+	* Drop Apache 2.2 (only support Apache 2.4+) [#7561](https://github.com/FreshRSS/FreshRSS/pull/7561)
+* I18n
+	* Improve Indonesian [#7622](https://github.com/FreshRSS/FreshRSS/pull/7622)
+	* Improve Polish [#7587](https://github.com/FreshRSS/FreshRSS/pull/7587)
+* Misc.
+	* Update to PHPMailer 6.10.0 [#7542](https://github.com/FreshRSS/FreshRSS/pull/7542)
+	* Update dev dependencies [#7630](https://github.com/FreshRSS/FreshRSS/pull/7630), [#7631](https://github.com/FreshRSS/FreshRSS/pull/7631), [#7632](https://github.com/FreshRSS/FreshRSS/pull/7632)
+		[#7633](https://github.com/FreshRSS/FreshRSS/pull/7633), [#7634](https://github.com/FreshRSS/FreshRSS/pull/7634), [#7635](https://github.com/FreshRSS/FreshRSS/pull/7635)
+
+
+## 2025-05-03 FreshRSS 1.26.2
 
 * Features
 	* Implement JSON string concatenation with & operator [#7414](https://github.com/FreshRSS/FreshRSS/pull/7414)
+	* Support multiple JSON fragments in HTML+XPath+JSON mode [#7369](https://github.com/FreshRSS/FreshRSS/pull/7369)
+* Bug fixing
+	* Fix escaping of tag search [#7468](https://github.com/FreshRSS/FreshRSS/pull/7468)
+	* Fix CLI parsing of Boolean flags [#7430](https://github.com/FreshRSS/FreshRSS/pull/7430)
+	* Fix API for labels with slash [#7437](https://github.com/FreshRSS/FreshRSS/pull/7437)
+* SimplePie
+	* Fix support for feeds with XML preamble + DTD [#7515](https://github.com/FreshRSS/FreshRSS/pull/7515), [simplepie#914](https://github.com/simplepie/simplepie/pull/914)
+	* Merged upstream [#7434](https://github.com/FreshRSS/FreshRSS/pull/7434)
+		* Upstream fix [simplepie#912](https://github.com/simplepie/simplepie/pull/912)
+* Security
+	* Disallow `<iframe srcdoc="">` [#7494](https://github.com/FreshRSS/FreshRSS/pull/7494), [CVE-2025-32015](https://github.com/FreshRSS/FreshRSS/security/advisories/GHSA-wgrq-mcwc-8f8v)
+	* Disallow `<button formaction="">` [#7506](https://github.com/FreshRSS/FreshRSS/pull/7506)
+	* Improve favicons hash to avoid favicon pollution [#7505](https://github.com/FreshRSS/FreshRSS/pull/7505), [CVE-2025-46339](https://github.com/FreshRSS/FreshRSS/security/advisories/GHSA-8f79-3q3w-43c4)
+	* Add `Content-Security-Policy` HTTP headers to favicons [#7471](https://github.com/FreshRSS/FreshRSS/pull/7471), [CVE-2025-31136](https://github.com/FreshRSS/FreshRSS/security/advisories/GHSA-f6r4-jrvc-cfmr)
+	* Web scraping forbid security HTTP headers in cURL [#7496](https://github.com/FreshRSS/FreshRSS/pull/7496), [CVE-2025-46341](https://github.com/FreshRSS/FreshRSS/security/advisories/GHSA-w3m8-wcf4-h8vm)
+	* Add some HTTP headers `Referrer-Policy: same-origin` [#6303](https://github.com/FreshRSS/FreshRSS/pull/6303), [#7478](https://github.com/FreshRSS/FreshRSS/pull/7478)
+	* Use HTTP POST for logout [#7489](https://github.com/FreshRSS/FreshRSS/pull/7489), [CVE-2025-31482](https://github.com/FreshRSS/FreshRSS/security/advisories/GHSA-vpmc-3fv2-jmgp)
+	* Make update URL read-only [#7477](https://github.com/FreshRSS/FreshRSS/pull/7477)
+	* Fix for extensions: Restrict valid paths in `ext.php` [#7479](https://github.com/FreshRSS/FreshRSS/pull/7479), [CVE-2025-31134](https://github.com/FreshRSS/FreshRSS/security/advisories/GHSA-jjm2-4hf7-9x65)
+	* Fix for extensions: Secure serving of user files [#7495](https://github.com/FreshRSS/FreshRSS/pull/7495)
+* Extensions
+	* Fix file serving for symlinked extensions [#7545](https://github.com/FreshRSS/FreshRSS/pull/7545)
+	* Catch extension exceptions in override [#7475](https://github.com/FreshRSS/FreshRSS/pull/7475)
+	* JavaScript: new event to detect context loaded [#7452](https://github.com/FreshRSS/FreshRSS/pull/7452)
 * Deployment
 	* Apache: add check for `mod_filter` to ensure that `AddOutputFilterByType` works [#7419](https://github.com/FreshRSS/FreshRSS/pull/7419)
 * UI
+	* Accessibility: Add `:focus` style to some dropdown menus [#7491](https://github.com/FreshRSS/FreshRSS/pull/7491)
 	* New size option for the *Mark as read* button [#7314](https://github.com/FreshRSS/FreshRSS/pull/7314)
-* SimplePie
-	* Merged upstream [#7434](https://github.com/FreshRSS/FreshRSS/pull/7434)
-		* Upstream fix [simplepie#912](https://github.com/simplepie/simplepie/pull/912)
+	* Update `bcrypt.js` from 2.4.4 to 3.0.2 [#7449](https://github.com/FreshRSS/FreshRSS/pull/7449)
+	* Various UI and style improvements: [#7168](https://github.com/FreshRSS/FreshRSS/pull/7168), [#7526](https://github.com/FreshRSS/FreshRSS/pull/7526)
+* I18n
+	* Rework credits [#7426](https://github.com/FreshRSS/FreshRSS/pull/7426)
+	* Improve French [#7432](https://github.com/FreshRSS/FreshRSS/pull/7432)
+	* Improve Italian [#7540](https://github.com/FreshRSS/FreshRSS/pull/7540)
+	* Improve Polish [#7508](https://github.com/FreshRSS/FreshRSS/pull/7508)
+	* Improve Turkish [#7442](https://github.com/FreshRSS/FreshRSS/pull/7442)
+* Misc.
+	* Improve PHP code [#7431](https://github.com/FreshRSS/FreshRSS/pull/7431), [#7488](https://github.com/FreshRSS/FreshRSS/pull/7488), [#7534](https://github.com/FreshRSS/FreshRSS/pull/7534)
+	* Update dev dependencies [#7480](https://github.com/FreshRSS/FreshRSS/pull/7480), [#7482](https://github.com/FreshRSS/FreshRSS/pull/7482), [#7483](https://github.com/FreshRSS/FreshRSS/pull/7483),
+		[#7484](https://github.com/FreshRSS/FreshRSS/pull/7484), [#7485](https://github.com/FreshRSS/FreshRSS/pull/7485), [#7486](https://github.com/FreshRSS/FreshRSS/pull/7486),
+		[#7487](https://github.com/FreshRSS/FreshRSS/pull/7487), [#7533](https://github.com/FreshRSS/FreshRSS/pull/7533), [#7535](https://github.com/FreshRSS/FreshRSS/pull/7535),
+		[#7536](https://github.com/FreshRSS/FreshRSS/pull/7536), [#7537](https://github.com/FreshRSS/FreshRSS/pull/7537), [#7538](https://github.com/FreshRSS/FreshRSS/pull/7538)
 
 
 ## 2025-03-13 FreshRSS 1.26.1

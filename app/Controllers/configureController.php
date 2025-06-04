@@ -178,7 +178,7 @@ class FreshRSS_configure_Controller extends FreshRSS_ActionController {
 		FreshRSS_View::appendScript(Minz_Url::display('/scripts/draggable.js?' . @filemtime(PUBLIC_PATH . '/scripts/draggable.js')));
 
 		if (Minz_Request::isPost()) {
-			$share = $_POST['share'] ?? null;
+			$share = $_POST['share'] ?? [];
 			if (is_array($share)) {
 				$share = array_filter($share, fn($value, $key): bool =>
 					is_int($key) && is_array($value) &&
@@ -505,7 +505,6 @@ class FreshRSS_configure_Controller extends FreshRSS_ActionController {
 			$limits['cookie_duration'] = Minz_Request::paramInt('cookie-duration') ?: FreshRSS_Auth::DEFAULT_COOKIE_DURATION;
 			FreshRSS_Context::systemConf()->limits = $limits;
 			FreshRSS_Context::systemConf()->title = Minz_Request::paramString('instance-name') ?: 'FreshRSS';
-			FreshRSS_Context::systemConf()->auto_update_url = Minz_Request::paramString('auto-update-url');
 			FreshRSS_Context::systemConf()->force_email_validation = Minz_Request::paramBoolean('force-email-validation');
 			FreshRSS_Context::systemConf()->save();
 

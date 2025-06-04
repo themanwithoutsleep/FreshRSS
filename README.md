@@ -70,7 +70,7 @@ FreshRSS comes with absolutely no warranty.
 
 # [Installation](https://freshrss.github.io/FreshRSS/en/admins/03_Installation.html)
 
-The latest stable release can be found [here](https://github.com/FreshRSS/FreshRSS/releases/latest). New versions are released every two to three months.
+The latest stable release can be found [on GitHub](https://github.com/FreshRSS/FreshRSS/releases/latest). New versions are released every two to three months.
 
 If you want a rolling release with the newest features, or want to help testing or developing the next stable version, you can use [the `edge` branch](https://github.com/FreshRSS/FreshRSS/tree/edge/).
 
@@ -82,6 +82,7 @@ If you want a rolling release with the newest features, or want to help testing 
 * [![PikaPods](https://www.pikapods.com/static/run-button-34.svg)](https://www.pikapods.com/pods?run=freshrss)
 * [![Deploy on Elestio](https://elest.io/images/logos/deploy-to-elestio-btn.png)](https://elest.io/open-source/freshrss)
 * [![Deploy on Zeabur](https://zeabur.com/button.svg)](https://zeabur.com/templates/MD4TRW)
+* [![Run on ClawCloud](https://raw.githubusercontent.com/ClawCloud/Run-Template/refs/heads/main/Run-on-ClawCloud.svg)](https://template.run.claw.cloud/?openapp=system-fastdeploy%3FtemplateName%3Dfreshrss)
 
 ## Manual install
 
@@ -152,17 +153,18 @@ and [Fever API](https://freshrss.github.io/FreshRSS/en/developers/06_Fever_API.h
 # Included libraries
 
 * [SimplePie](https://simplepie.org/)
-* [MINZ](https://framagit.org/marienfressinaud/MINZ)
 * [php-http-304](https://alexandre.alapetite.fr/doc-alex/php-http-304/)
 * [lib_opml](https://framagit.org/marienfressinaud/lib_opml)
+* [bcrypt.js](https://github.com/dcodeIO/bcrypt.js)
 * [PhpGt/CssXPath](https://github.com/PhpGt/CssXPath)
 * [PHPMailer](https://github.com/PHPMailer/PHPMailer)
 * [Chart.js](https://www.chartjs.org)
 
-## Only for some options or configurations
+# Additional credits
 
-* [bcrypt.js](https://github.com/dcodeIO/bcrypt.js)
-* [phpQuery](https://github.com/phpquery/phpquery)
+* Based on a modified version of the [MINZ framework](https://framagit.org/marienfressinaud/MINZ).
+* Some [icons](https://gitlab.gnome.org/Archive/gnome-icon-theme-symbolic) come from the [GNOME project](https://www.gnome.org/)
+* Fonts: [*Open Sans*](https://fonts.google.com/specimen/Open+Sans), [*Lato*](https://www.latofonts.com/lato-free-fonts/), [*Spectral*](https://github.com/productiontype/spectral)
 
 # Alternatives
 

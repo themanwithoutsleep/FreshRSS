@@ -493,7 +493,7 @@ SQL;
 		?FreshRSS_BooleanSearch $filters = null, int $state = 0, bool $is_read = true) {
 		FreshRSS_UserDAO::touch();
 		if ($idMax == '0') {
-			$idMax = time() . '000000';
+			$idMax = uTimeString();
 			Minz_Log::debug('Calling markReadEntries(0) is deprecated!');
 		}
 
@@ -544,7 +544,7 @@ SQL;
 	public function markReadCat(int $id, string $idMax = '0', ?FreshRSS_BooleanSearch $filters = null, int $state = 0, bool $is_read = true): int|false {
 		FreshRSS_UserDAO::touch();
 		if ($idMax == '0') {
-			$idMax = time() . '000000';
+			$idMax = uTimeString();
 			Minz_Log::debug('Calling markReadCat(0) is deprecated!');
 		}
 
@@ -585,7 +585,7 @@ SQL;
 	public function markReadFeed(int $id_feed, string $idMax = '0', ?FreshRSS_BooleanSearch $filters = null, int $state = 0, bool $is_read = true): int|false {
 		FreshRSS_UserDAO::touch();
 		if ($idMax == '0') {
-			$idMax = time() . '000000';
+			$idMax = uTimeString();
 			Minz_Log::debug('Calling markReadFeed(0) is deprecated!');
 		}
 		$hadTransaction = $this->pdo->inTransaction();
@@ -640,7 +640,7 @@ SQL;
 		int $state = 0, bool $is_read = true) {
 		FreshRSS_UserDAO::touch();
 		if ($idMax == '0') {
-			$idMax = time() . '000000';
+			$idMax = uTimeString();
 			Minz_Log::debug('Calling markReadTag(0) is deprecated!');
 		}
 
@@ -748,8 +748,8 @@ SQL;
 			$sql .= ' ORDER BY id DESC LIMIT ' . $limit;
 		}
 		$stm = $this->pdo->query($sql);
-		if ($stm != false) {
-			while ($row = $stm->fetch(PDO::FETCH_ASSOC)) {
+		if ($stm !== false) {
+			while (is_array($row = $stm->fetch(PDO::FETCH_ASSOC))) {
 				/** @var array{id:string,guid:string,title:string,author:string,content:string,link:string,date:int,lastSeen:int,
 				 *	hash:string,is_read:bool,is_favorite:bool,id_feed:int,tags:string,attributes:?string} $row */
 				yield $row;
@@ -1318,7 +1318,9 @@ SQL;
 
 		return [array_merge($values, $searchValues), 'SELECT '
 			. ($type === 'T' ? 'DISTINCT ' : '')
-			. 'e.id FROM `_entry` e '
+			. 'e.id'
+			. ($type === 'T' && $orderBy !== 'e.id' ? ', ' . $orderBy : '') // SELECT DISTINCT, ORDER BY expressions must appear in SELECT
+			. ' FROM `_entry` e '
 			. 'INNER JOIN `_feed` f ON e.id_feed = f.id '
 			. ($type === 't' || $type === 'T' ? 'INNER JOIN `_entrytag` et ON et.id_entry = e.id ' : '')
 			. 'WHERE ' . $where
@@ -1394,12 +1396,10 @@ SQL;
 		$stm = $this->listWhereRaw($type, $id, $state, $filters, id_min: $id_min, id_max: $id_max, sort: $sort, order: $order,
 			continuation_id: $continuation_id, continuation_value: $continuation_value, limit: $limit, offset: $offset);
 		if ($stm !== false) {
-			while ($row = $stm->fetch(PDO::FETCH_ASSOC)) {
-				if (is_array($row)) {
-					/** @var array{'id':string,'id_feed':int,'guid':string,'title':string,'author':string,'content':string,'link':string,'date':int,
-					 *		'hash':string,'is_read':int,'is_favorite':int,'tags':string,'attributes'?:?string} $row */
-					yield FreshRSS_Entry::fromArray($row);
-				}
+			while (is_array($row = $stm->fetch(PDO::FETCH_ASSOC))) {
+				/** @var array{'id':string,'id_feed':int,'guid':string,'title':string,'author':string,'content':string,'link':string,'date':int,
+				 *		'hash':string,'is_read':int,'is_favorite':int,'tags':string,'attributes'?:?string} $row */
+				yield FreshRSS_Entry::fromArray($row);
 			}
 		}
 	}
@@ -1438,12 +1438,10 @@ SQL;
 		if ($stm === false || !$stm->execute($ids)) {
 			return;
 		}
-		while ($row = $stm->fetch(PDO::FETCH_ASSOC)) {
-			if (is_array($row)) {
-				/** @var array{'id':string,'id_feed':int,'guid':string,'title':string,'author':string,'content':string,'link':string,'date':int,
-				 *		'hash':string,'is_read':int,'is_favorite':int,'tags':string,'attributes':?string} $row */
-				yield FreshRSS_Entry::fromArray($row);
-			}
+		while (is_array($row = $stm->fetch(PDO::FETCH_ASSOC))) {
+			/** @var array{'id':string,'id_feed':int,'guid':string,'title':string,'author':string,'content':string,'link':string,'date':int,
+			 *		'hash':string,'is_read':int,'is_favorite':int,'tags':string,'attributes':?string} $row */
+			yield FreshRSS_Entry::fromArray($row);
 		}
 	}
 
